@@ -31,3 +31,11 @@
   --success-color: #1bb918;
   --failure-color: #FF4C4C;
 }
+
+::-moz-selection {
+  background: var(--primary-color);
+}
+
+::selection {
+  background: var(--primary-color);
+}
