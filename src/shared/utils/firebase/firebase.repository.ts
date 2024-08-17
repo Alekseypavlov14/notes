@@ -1,11 +1,11 @@
 import { getDocs, collection, query, where, addDoc, updateDoc, deleteDoc, CollectionReference, QueryFieldFilterConstraint } from 'firebase/firestore'
+import { Entity, EntityDTO } from '@/shared/types/entity'
 import { Repository } from '../database'
 import { generateId } from '../generate-id'
-import { Entity } from '@/shared/types/entity'
 import { Id } from '@/shared/types/id'
 import { db } from './index'
 
-export class FirebaseRepository<T extends Entity = Entity, DTO = Omit<T, 'id'>> implements Repository<T, DTO> {
+export class FirebaseRepository<T extends Entity = Entity, DTO = EntityDTO<T>> implements Repository<T, DTO> {
   private readonly collection: CollectionReference
 
   constructor(
@@ -57,7 +57,12 @@ export class FirebaseRepository<T extends Entity = Entity, DTO = Omit<T, 'id'>> 
   }
 
   private getEntityDataByDTO(dto: DTO): Entity {
-    return ({ id: generateId(), ...dto })
+    return ({ 
+      id: generateId(), 
+      createdAt: Date.now(),
+      updatedAt: Date.now(),
+      ...dto 
+    })
   }
  
   private mapFiltersToFirebaseEntries(filters: Partial<T>): QueryFieldFilterConstraint[] {
