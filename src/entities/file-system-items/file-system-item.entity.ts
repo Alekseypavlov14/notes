@@ -9,4 +9,4 @@ export interface FileSystemItemEntity extends Entity {
   rootId: Id
 }
 
-export interface FileSystemItemDTO extends EntityDTO<FileSystemItemEntity> {}
+export interface FileSystemItemEntityDTO extends EntityDTO<FileSystemItemEntity> {}
