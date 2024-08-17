@@ -8,10 +8,7 @@ import { db } from './index'
 export class FirebaseRepository<T extends Entity = Entity, DTO = EntityDTO<T>> implements Repository<T, DTO> {
   private readonly collection: CollectionReference
 
-  constructor(
-    collectionKey: string,
-    private readonly entityCreator: (dto: DTO) => Entity = this.getEntityDataByDTO
-  ) {
+  constructor(collectionKey: string) {
     this.collection = collection(db, collectionKey)
   }
 
@@ -31,7 +28,7 @@ export class FirebaseRepository<T extends Entity = Entity, DTO = EntityDTO<T>> i
   }
 
   async create(dto: DTO): Promise<T | null> {
-    const entity = this.entityCreator(dto)
+    const entity = this.getEntityDataByDTO(dto)
     await addDoc(this.collection, entity)
 
     return this.getById(entity.id)
@@ -41,7 +38,10 @@ export class FirebaseRepository<T extends Entity = Entity, DTO = EntityDTO<T>> i
     const docRef = await this.getDocumentRefByEntityId(id)
     if (!docRef) return null
 
-    await updateDoc(docRef, dto as any)
+    await updateDoc(docRef, {
+      updatedAt: Date.now(),
+      ...dto,
+    })
 
     return this.getById(id)
   }
