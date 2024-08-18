@@ -2,6 +2,7 @@ export * from './credentials'
 
 export { useValidateCredentials } from './hooks/use-validate-credentials'
 export { validateCredentials } from './validate-credentials'
+export { getUserAccount } from './get-user-account'
 export { deleteAccount } from './delete-account'
 export { signOut } from './sign-out'
 export { signUp } from './sign-up'
