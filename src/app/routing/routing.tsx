@@ -1,11 +1,12 @@
-import { createBrowserRouter } from 'react-router-dom'
+import { createBrowserRouter, Navigate } from 'react-router-dom'
 import { SignUpPage } from '@/pages/SignUpPage'
 import { LoginPage } from '@/pages/LoginPage'
+import { NotesPage } from '@/pages/NotesPage'
 
 export const routing = createBrowserRouter([
   {
     path: '/',
-    element: <div />
+    element: <Navigate to='/notes' />
   },
   {
     path: '/login',
@@ -14,6 +15,10 @@ export const routing = createBrowserRouter([
   {
     path: '/sign-up',
     element: <SignUpPage />
+  },
+  {
+    path: '/notes/:id?',
+    element: <NotesPage />
   },
   {
     path: '/settings',

@@ -1,6 +1,6 @@
 import { getFileSystemItemsByDirectoryId } from '../utils/get-file-system-items-by-directory-id'
 import { directoriesManipulator } from '../directory-manipulator'
-import { useContextDirectory } from './use-context-directory'
+import { useContextDirectoryId } from './use-context-directory-id'
 import { useEffect, useState } from 'react'
 import { filesManipulator } from '../file-manipulator'
 import { DirectoryEntity } from '@/entities/directories'
@@ -19,21 +19,21 @@ export function useDirectoryContent(onError: VoidFunction = () => {}): UseDirect
   const [directories, setDirectories] = useState<DirectoryEntity[]>([])
   const [isDirectoriesLoading, setDirectoriesLoading] = useState(true)
 
-  const { directory } = useContextDirectory()
+  const directoryId = useContextDirectoryId()
 
   useEffect(() => {
-    if (!directory) return onError()
+    if (!directoryId) return onError()
 
     filesManipulator.getUserItems()
-      .then(files => setFiles(getFileSystemItemsByDirectoryId(files, directory.id)))
+      .then(files => setFiles(getFileSystemItemsByDirectoryId(files, directoryId)))
       .catch(() => setFiles([]))
       .finally(() => setFilesLoading(false))
 
     directoriesManipulator.getUserItems()
-      .then(directories => setDirectories(getFileSystemItemsByDirectoryId(directories, directory.id)))
+      .then(directories => setDirectories(getFileSystemItemsByDirectoryId(directories, directoryId)))
       .catch(() => setDirectories([]))
       .finally(() => setDirectoriesLoading(false))
-  }, [directory])
+  }, [directoryId])
 
   const isLoading = isFilesLoading || isDirectoriesLoading
 
