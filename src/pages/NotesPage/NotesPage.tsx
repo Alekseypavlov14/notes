@@ -2,6 +2,7 @@ import { useDirectoryContent } from '@/features/file-system'
 import { useSettingsStore } from '@/features/settings'
 import { StructureLayout } from '@/layouts/StructureLayout'
 import { LoaderScreen } from '@/widgets/LoaderScreen'
+import { NotesHeader } from '@/widgets/NotesHeader'
 import { FileSystem } from '@/widgets/FileSystem'
 import { Container } from '@/shared/components/Container'
 import { Headline } from '@/shared/components/Headline'
@@ -26,12 +27,7 @@ export function NotesPage() {
     <Page className={styles.NotesPage}>
       <StructureLayout>
         <Container>
-          <Headline 
-            level={2} 
-            margin='small'
-          >
-            Notes
-          </Headline>
+          <NotesHeader />
 
           <FileSystem 
             files={files} 

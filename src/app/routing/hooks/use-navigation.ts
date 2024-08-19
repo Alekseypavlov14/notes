@@ -7,6 +7,8 @@ export function useNavigation() {
     navigateLoginPage: () => navigate('/login'),
     navigateSignUpPage: () => navigate('/sign-up'),
     navigateHomePage: () => navigate('/'),
+    navigateNotesPage: () => navigate('/notes'),
     navigateSettingsPage: () => navigate('/settings'),
+    navigateCreateFileRelativePage: () => navigate('create/file'),
   })
 }
