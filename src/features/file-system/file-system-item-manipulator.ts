@@ -7,6 +7,7 @@ import { findById } from '@/shared/utils/entities'
 import { Id } from '@/shared/types/id'
 
 export interface IFileSystemItemManipulator<E extends IFileSystemItem, DTO extends EntityDTO<IFileSystemItem>> {
+  getUserItems(): Promise<E[]>
   create(dto: Omit<DTO, 'userId'>): Promise<E>
   move(id: Id, newRootId: Id): Promise<E>
   getPathSegments(id: Id): Promise<string[]>
@@ -14,6 +15,14 @@ export interface IFileSystemItemManipulator<E extends IFileSystemItem, DTO exten
 
 export abstract class FileSystemItemManipulator<E extends IFileSystemItem, DTO extends EntityDTO<IFileSystemItem>> implements IFileSystemItemManipulator<E, DTO> {
   constructor(private readonly repository: Repository<E, DTO>) {}
+
+  async getUserItems(): Promise<E[]> {
+    const account = await getUserAccount()
+
+    const items = this.repository.getByFilters({ userId: account.id } as Partial<E>)
+
+    return items
+  }
 
   async create(dto: Omit<DTO, 'userId'>): Promise<E> {
     const account = await getUserAccount()
