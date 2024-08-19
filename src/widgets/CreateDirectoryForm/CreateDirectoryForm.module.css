@@ -1,0 +1,17 @@
+/* .CreateDirectoryForm {} */
+
+.Structure {
+  width: 100%;
+}
+
+.FieldBlock {
+  width: 100%;
+}
+
+.Control {
+  width: 100%;
+}
+
+.SubmitButton {
+  margin-top: 10px;
+}
