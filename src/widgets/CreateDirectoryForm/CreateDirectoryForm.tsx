@@ -50,6 +50,7 @@ export function CreateDirectoryForm({ mode, initialValues = {}, onSubmit }: Crea
               value={values.name}
               onChange={handleChange}
               status={(errors.name && touched.name) ? 'error' : ''}
+              autoComplete='off'
             />
 
             <Button
