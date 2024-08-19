@@ -1,0 +1,15 @@
+.FileSystemItemsList {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.SmallGap {
+  gap: 5px;
+}
+.MediumGap {
+  gap: 10px;
+}
+.LargeGap {
+  gap: 15px;
+}
