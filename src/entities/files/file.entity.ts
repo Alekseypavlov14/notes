@@ -1,7 +1,7 @@
-import { Entity, EntityDTO } from '@/shared/types/entity'
 import { IFileSystemItem } from '../file-system-items'
+import { EntityDTO } from '@/shared/types/entity'
 
-export interface FileEntity extends Entity, IFileSystemItem {
+export interface FileEntity extends IFileSystemItem {
   content: string
 }
 

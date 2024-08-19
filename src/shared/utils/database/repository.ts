@@ -1,7 +1,7 @@
-import { Entity } from '@/shared/types/entity'
+import { Entity, EntityDTO } from '@/shared/types/entity'
 import { Id } from '@/shared/types/id'
 
-export interface Repository<T extends Entity = Entity, DTO = Omit<T, 'id'>> {
+export interface Repository<T extends Entity = Entity, DTO = EntityDTO<T>> {
   get(): Promise<T[]>
   getById(id: Id): Promise<T | null>
   getByFilters(filters: Partial<T>): Promise<T[]>

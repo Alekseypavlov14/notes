@@ -1,1 +1,2 @@
-export * from './create-file'
+export * from './file-manipulator'
+export * from './directory-manipulator'
