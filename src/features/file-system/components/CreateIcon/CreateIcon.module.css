@@ -12,6 +12,12 @@
   transition: 0.3s;
 }
 
-.CreateIcon:hover {
+@media (hover: hover) {
+  .CreateIcon:hover {
+    color: var(--text-primary);
+  }
+}
+
+.CreateIcon:active {
   color: var(--text-primary);
 }
