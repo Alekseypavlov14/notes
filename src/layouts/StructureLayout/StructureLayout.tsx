@@ -1,5 +1,5 @@
 import { ReactNode } from 'react'
-import { Header } from '../Header'
+import { Header } from '@/widgets/Header'
 import styles from './StructureLayout.module.css'
 
 interface StructureLayoutProps {
