@@ -20,18 +20,6 @@ export function NotesPage() {
   const createDirectoryModal = useModal()
   const { navigateCreateFileRelativePage } = useNavigation()
 
-  if (isLoading) return (
-    <ProtectedRoute>
-      <Page className={styles.NotesPage}>
-        <StructureLayout>
-          <LoaderScreen>
-            <Headline level={5}>Loading...</Headline>
-          </LoaderScreen>
-        </StructureLayout>
-      </Page>
-    </ProtectedRoute>
-  )
-
   return (
     <ProtectedRoute>
       <Page className={styles.NotesPage}>
@@ -41,12 +29,18 @@ export function NotesPage() {
               onDirectoryIconClick={createDirectoryModal.open}
               onFileIconClick={navigateCreateFileRelativePage}
             />
-  
-            <FileSystem 
-              files={files} 
-              directories={directories} 
-              settings={settings} 
-            />
+
+            {isLoading ? (
+              <LoaderScreen>
+                <Headline level={5}>Loading...</Headline>
+              </LoaderScreen>
+            ): (
+              <FileSystem 
+                files={files} 
+                directories={directories} 
+                settings={settings} 
+              />
+            )}
   
             <CreateDirectoryModal 
               isOpened={createDirectoryModal.isOpened}
