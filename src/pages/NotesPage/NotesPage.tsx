@@ -14,7 +14,7 @@ import { Page } from '@/shared/components/Page'
 import styles from './NotesPage.module.css'
 
 export function NotesPage() {
-  const { files, directories, isLoading } = useDirectoryContent()
+  const { files, directories, isLoading, revalidate } = useDirectoryContent()
   const settings = useSettingsStore((state) => state)
 
   const createDirectoryModal = useModal()
@@ -51,6 +51,7 @@ export function NotesPage() {
             <CreateDirectoryModal 
               isOpened={createDirectoryModal.isOpened}
               close={createDirectoryModal.close}
+              onSubmit={revalidate}
             />
           </Container>
         </StructureLayout>

@@ -9,9 +9,10 @@ import styles from './CreateDirectoryModal.module.css'
 interface CreateDirectoryModalProps {
   isOpened: boolean
   close: () => void
+  onSubmit?: () => void
 }
 
-export function CreateDirectoryModal({ isOpened, close }: CreateDirectoryModalProps) {
+export function CreateDirectoryModal({ isOpened, close, onSubmit = () => {} }: CreateDirectoryModalProps) {
   const { successMessage, errorMessage } = useNotifications()
   const directoryId = useContextDirectoryId()
 
@@ -22,6 +23,7 @@ export function CreateDirectoryModal({ isOpened, close }: CreateDirectoryModalPr
     })
       .then(() => {
         close()
+        onSubmit()
         successMessage('Directory is created!')
       })
       .catch(handleHTTPException({

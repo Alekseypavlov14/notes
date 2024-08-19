@@ -10,6 +10,7 @@ interface UseDirectoryContentResult {
   files: FileEntity[]
   directories: DirectoryEntity[]
   isLoading: boolean
+  revalidate: () => void
 }
 
 export function useDirectoryContent(onError: VoidFunction = () => {}): UseDirectoryContentResult {
@@ -21,8 +22,11 @@ export function useDirectoryContent(onError: VoidFunction = () => {}): UseDirect
 
   const directoryId = useContextDirectoryId()
 
-  useEffect(() => {
+  function getFileSystemItems() {
     if (!directoryId) return onError()
+
+    setFilesLoading(true)
+    setDirectoriesLoading(true)
 
     filesManipulator.getUserItems()
       .then(files => setFiles(getFileSystemItemsByDirectoryId(files, directoryId)))
@@ -33,9 +37,11 @@ export function useDirectoryContent(onError: VoidFunction = () => {}): UseDirect
       .then(directories => setDirectories(getFileSystemItemsByDirectoryId(directories, directoryId)))
       .catch(() => setDirectories([]))
       .finally(() => setDirectoriesLoading(false))
-  }, [directoryId])
+  }
+
+  useEffect(getFileSystemItems, [directoryId])
 
   const isLoading = isFilesLoading || isDirectoriesLoading
 
-  return { files, directories, isLoading }
+  return { files, directories, isLoading, revalidate: getFileSystemItems }
 }
