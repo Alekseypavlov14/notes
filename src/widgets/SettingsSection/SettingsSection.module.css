@@ -1,0 +1,7 @@
+.SettingsSection {
+  width: 100%;
+  padding: 10px 0px;
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+}
