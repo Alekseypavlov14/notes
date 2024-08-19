@@ -2,6 +2,7 @@ import { CreateDirectoryModal } from '@/widgets/CreateDirectoryModal'
 import { useDirectoryContent } from '@/features/file-system'
 import { useSettingsStore } from '@/features/settings'
 import { StructureLayout } from '@/layouts/StructureLayout'
+import { ProtectedRoute } from '@/app/auth'
 import { useNavigation } from '@/app/routing'
 import { LoaderScreen } from '@/widgets/LoaderScreen'
 import { NotesHeader } from '@/widgets/NotesHeader'
@@ -20,36 +21,40 @@ export function NotesPage() {
   const { navigateCreateFileRelativePage } = useNavigation()
 
   if (isLoading) return (
-    <Page className={styles.NotesPage}>
-      <StructureLayout>
-        <LoaderScreen>
-          <Headline level={5}>Loading...</Headline>
-        </LoaderScreen>
-      </StructureLayout>
-    </Page>
+    <ProtectedRoute>
+      <Page className={styles.NotesPage}>
+        <StructureLayout>
+          <LoaderScreen>
+            <Headline level={5}>Loading...</Headline>
+          </LoaderScreen>
+        </StructureLayout>
+      </Page>
+    </ProtectedRoute>
   )
 
   return (
-    <Page className={styles.NotesPage}>
-      <StructureLayout>
-        <Container>
-          <NotesHeader 
-            onDirectoryIconClick={createDirectoryModal.open}
-            onFileIconClick={navigateCreateFileRelativePage}
-          />
-
-          <FileSystem 
-            files={files} 
-            directories={directories} 
-            settings={settings} 
-          />
-
-          <CreateDirectoryModal 
-            isOpened={createDirectoryModal.isOpened}
-            close={createDirectoryModal.close}
-          />
-        </Container>
-      </StructureLayout>
-    </Page>
+    <ProtectedRoute>
+      <Page className={styles.NotesPage}>
+        <StructureLayout>
+          <Container>
+            <NotesHeader 
+              onDirectoryIconClick={createDirectoryModal.open}
+              onFileIconClick={navigateCreateFileRelativePage}
+            />
+  
+            <FileSystem 
+              files={files} 
+              directories={directories} 
+              settings={settings} 
+            />
+  
+            <CreateDirectoryModal 
+              isOpened={createDirectoryModal.isOpened}
+              close={createDirectoryModal.close}
+            />
+          </Container>
+        </StructureLayout>
+      </Page>
+    </ProtectedRoute>
   )
 }

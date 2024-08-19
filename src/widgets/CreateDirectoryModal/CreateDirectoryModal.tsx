@@ -20,8 +20,10 @@ export function CreateDirectoryModal({ isOpened, close }: CreateDirectoryModalPr
       ...formData,
       rootId: directoryId
     })
-      .then(() => successMessage('Directory is created!'))
-      .then(() => close())
+      .then(() => {
+        close()
+        successMessage('Directory is created!')
+      })
       .catch(handleHTTPException({
         401: () => errorMessage('You are not authorized'),
         500: () => errorMessage('Something went wrong'),
