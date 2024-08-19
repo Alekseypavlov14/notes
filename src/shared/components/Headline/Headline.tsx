@@ -4,19 +4,29 @@ import clsx from 'clsx'
 import styles from './Headline.module.css'
 
 export type HeadlineLevel = 1 | 2 | 3 | 4 | 5 | 6
+export type HeadlineMargin = 'none' | 'small' | 'medium' | 'large'
+
+const margins: Record<HeadlineMargin, string> = {
+  none: styles.NoneMargin,
+  small: styles.SmallMargin,
+  medium: styles.MediumMargin,
+  large: styles.LargeMargin,
+}
 
 interface HeadlineProps extends HTMLAttributes<HTMLElement> {
   level?: HeadlineLevel
+  margin?: HeadlineMargin
   center?: boolean
 }
 
 export function Headline({ 
   level = 1,
+  margin = 'none',
   center, 
   className,
   ...props
 }: HeadlineProps) {
-  const classNames = clsx(mapLevelToHeadlineClassName[level], center && styles.Center, className)
+  const classNames = clsx(mapLevelToHeadlineClassName[level], center && styles.Center, margins[margin], className)
   
   const headlineProps = {
     className: classNames,

@@ -34,3 +34,16 @@
   flex: 1 1 auto;
   text-align: center;
 }
+
+.NoneMargin {
+  margin-bottom: 0px;
+}
+.SmallMargin {
+  margin-bottom: 5px;
+}
+.MediumMargin {
+  margin-bottom: 10px;
+}
+.LargeMargin {
+  margin-bottom: 15px;
+}
