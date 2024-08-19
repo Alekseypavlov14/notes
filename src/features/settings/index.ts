@@ -1,2 +1,3 @@
-export { settingsStorage } from './settings.storage'
-export { settingsStore } from './settings.store'
+export * from './settings-config'
+export * from './settings.storage'
+export * from './settings.store'
