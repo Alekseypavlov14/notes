@@ -2,9 +2,12 @@ import { CreateDirectoryIcon, CreateFileIcon } from '@/features/file-system'
 import { Headline } from '@/shared/components/Headline'
 import styles from './NotesHeader.module.css'
 
-interface NotesHeaderProps {}
+interface NotesHeaderProps {
+  onDirectoryIconClick?: VoidFunction
+  onFileIconClick?: VoidFunction
+}
 
-export function NotesHeader({}: NotesHeaderProps) {
+export function NotesHeader({ onDirectoryIconClick, onFileIconClick }: NotesHeaderProps) {
   return (
     <div className={styles.NotesHeader}>
       <Headline 
@@ -15,8 +18,8 @@ export function NotesHeader({}: NotesHeaderProps) {
       </Headline>
 
       <div className={styles.NotesHeaderIcons}>
-        <CreateDirectoryIcon />
-        <CreateFileIcon />
+        <CreateDirectoryIcon onClick={onDirectoryIconClick} />
+        <CreateFileIcon onClick={onFileIconClick} />
       </div>
     </div>
   )

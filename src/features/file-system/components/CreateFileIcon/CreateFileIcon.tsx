@@ -1,16 +1,17 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { useNavigation } from '@/app/routing'
 import { CreateIcon } from '../CreateIcon'
 import { faFile } from '@fortawesome/free-regular-svg-icons'
 import styles from './CreateFileIcon.module.css'
 
-export function CreateFileIcon() {
-  const { navigateCreateFileRelativePage } = useNavigation()
+interface CreateFileIconProps {
+  onClick?: VoidFunction
+}
 
+export function CreateFileIcon({ onClick }: CreateFileIconProps) {
   return (
     <CreateIcon 
       className={styles.CreateFileIcon}
-      onClick={navigateCreateFileRelativePage}
+      onClick={onClick}
     >
       <FontAwesomeIcon icon={faFile} />
     </CreateIcon>
