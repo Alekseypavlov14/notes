@@ -1,8 +1,8 @@
 import { defaultInitialValues, NoteFormData, validateForm } from './form'
 import { Form, Formik, FormikHelpers } from 'formik'
 import { HandleExitPage } from './HandleExitPage'
-import { Button, Input } from 'antd'
 import { deepMerge } from '@oleksii-pavlov/deep-merge'
+import { Input } from 'antd'
 import styles from './NoteForm.module.css'
 
 interface NoteFormProps {
@@ -58,15 +58,6 @@ export function NoteForm({
             status={(errors.content && touched.content) ? 'error' : ''}
             autoComplete='off'
           />
-
-          <Button
-            className={styles.SubmitButton}
-            htmlType='submit'
-            type='primary'
-            block
-          >
-            Save
-          </Button>
 
           <HandleExitPage onExitPage={onExitPage} />
         </Form>
