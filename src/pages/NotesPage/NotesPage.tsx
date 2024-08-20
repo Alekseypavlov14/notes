@@ -6,6 +6,7 @@ import { ProtectedRoute } from '@/app/auth'
 import { useNavigation } from '@/app/routing'
 import { LoaderScreen } from '@/widgets/LoaderScreen'
 import { NotesHeader } from '@/widgets/NotesHeader'
+import { Breadcrumbs } from '@/widgets/Breadcrumbs'
 import { FileSystem } from '@/widgets/FileSystem'
 import { Container } from '@/shared/components/Container'
 import { Headline } from '@/shared/components/Headline'
@@ -29,6 +30,8 @@ export function NotesPage() {
       <Page className={styles.NotesPage}>
         <StructureLayout>
           <Container>
+            <Breadcrumbs />
+
             <NotesHeader 
               onDirectoryIconClick={createDirectoryModal.open}
               onFileIconClick={navigateCreateFileRelativePage}

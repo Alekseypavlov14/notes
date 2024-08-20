@@ -1,0 +1,25 @@
+.Breadcrumbs {
+  font-size: 10px;
+  margin-bottom: 5px;
+}
+
+.Breadcrumbs a {
+  height: auto;
+}
+
+.Breadcrumbs li {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.Breadcrumbs .BreadcrumbLink, 
+.Breadcrumbs .LastItem {
+  font-family: 'Rubik', sans-serif;
+  font-size: 12px;
+  color: var(--text-secondary);
+}
+
+.Breadcrumbs .LastItem {
+  color: var(--text-primary);
+}

@@ -11,6 +11,7 @@ export interface IFileSystemItemManipulator<E extends IFileSystemItem, DTO exten
   create(dto: Omit<DTO, 'userId'>): Promise<E>
   move(id: Id, newRootId: Id): Promise<E>
   getPathSegments(id: Id): Promise<string[]>
+  getPathDirectories(id: Id): Promise<IFileSystemItem[]>
 }
 
 export abstract class FileSystemItemManipulator<E extends IFileSystemItem, DTO extends EntityDTO<IFileSystemItem>> implements IFileSystemItemManipulator<E, DTO> {
@@ -60,15 +61,30 @@ export abstract class FileSystemItemManipulator<E extends IFileSystemItem, DTO e
     const fileSystemItem = await this.repository.getById(id)
     if (!fileSystemItem) throw new HTTPException(404)
 
-    return this.recursivelyGetPathSegments(fileSystemItems, fileSystemItem)
+    return this.recursivelyGetFileSystemData(fileSystemItems, fileSystemItem, item => item.name)
   }
 
-  private recursivelyGetPathSegments(fileSystemItems: IFileSystemItem[], fileSystemItem: IFileSystemItem): string[] {
+  async getPathDirectories(id: Id): Promise<IFileSystemItem[]> {
+    const account = await getUserAccount()
+
+    const fileSystemItems = await this.repository.getByFilters({ userId: account.id } as Partial<E>)
+
+    const fileSystemItem = await this.repository.getById(id)
+    if (!fileSystemItem) throw new HTTPException(404)
+
+    return this.recursivelyGetFileSystemData(fileSystemItems, fileSystemItem, item => item)
+  }
+
+  private recursivelyGetFileSystemData<T>(
+    fileSystemItems: IFileSystemItem[], 
+    fileSystemItem: IFileSystemItem, 
+    selector: (item: IFileSystemItem) => T
+  ): T[] {
     if (!fileSystemItem) return []
 
-    const parentFileSystemItem = fileSystemItems.find(findById(fileSystemItem.id))
-    if (!parentFileSystemItem) return [fileSystemItem.name]
+    const parentFileSystemItem = fileSystemItems.find(findById(fileSystemItem.rootId))
+    if (!parentFileSystemItem) return [selector(fileSystemItem)]
     
-    return this.recursivelyGetPathSegments(fileSystemItems, parentFileSystemItem).concat([fileSystemItem.name])
+    return this.recursivelyGetFileSystemData(fileSystemItems, parentFileSystemItem, selector).concat([selector(fileSystemItem)])
   }
 }

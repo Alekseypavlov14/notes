@@ -45,7 +45,15 @@ export const lightThemeData: ThemeConfig = {
     Select: {
       optionActiveBg: '#e5e5e5',
       optionSelectedBg: '#e5e5e5',
-    }
+    },
+    Breadcrumb: {
+      itemColor: '#9a9a9a',
+      linkColor: '#9a9a9a',
+      linkHoverColor: '#707070',
+      lastItemColor: '#222224',
+      separatorMargin: 4,
+      fontSize: 12,
+    },
   },
 }
 
@@ -78,6 +86,14 @@ export const darkThemeData: ThemeConfig = {
     DatePicker: {
       colorTextDisabled: '#6b6a70',
     },
+    Breadcrumb: {
+      itemColor: '#5e5d60',
+      linkColor: '#5e5d60',
+      linkHoverColor: '#6b6a70',
+      lastItemColor: '#e9e8ea',
+      separatorMargin: 4,
+      fontSize: 12,
+    }
   },
 }
 
