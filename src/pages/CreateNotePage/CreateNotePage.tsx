@@ -29,6 +29,18 @@ export function CreateNotePage() {
       }))
   }
 
+  function onExitPage(data: NoteFormData) {
+    filesManipulator.create({
+      rootId: directoryId,
+      ...data,
+    })
+      .catch(handleHTTPException({
+        401: () => errorMessage('You are not authorized'),
+        500: () => errorMessage('Something went wrong'),
+        [defaultHandler]: () => errorMessage('Something went wrong'),
+      }))
+  }
+
   return (
     <ProtectedRoute>
       <Page className={styles.CreateNotePage}>
@@ -37,6 +49,7 @@ export function CreateNotePage() {
             <Breadcrumbs />
 
             <NoteForm 
+              onExitPage={onExitPage}
               onSubmit={createNote}
             />
           </Container>

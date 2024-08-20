@@ -1,5 +1,5 @@
+import { getInitialValue, NoteForm, NoteFormData } from '@/widgets/NoteForm'
 import { useContextDirectoryId, useContextFile } from '@/features/file-system'
-import { NoteForm, NoteFormData } from '@/widgets/NoteForm'
 import { handleHTTPException } from '@/shared/utils/exception'
 import { useNotifications } from '@/features/notifications'
 import { StructureLayout } from '@/layouts/StructureLayout'
@@ -21,6 +21,8 @@ export function NotePage() {
 
   const { file, isLoading } = useContextFile(onFileNotFound)
 
+  const initialValue = file ? getInitialValue(file) : {}
+
   function onFileNotFound() {
     navigateDirectoryPage(directoryId)
     errorMessage('Note is not found')
@@ -39,6 +41,18 @@ export function NotePage() {
       }))
   }
 
+  function onExitPage(data: NoteFormData) {
+    if (!file?.id) return
+
+    filesRepository.updateById(file.id, data)
+      .catch(handleHTTPException({
+        401: () => errorMessage('Note was not saved. You are not authorized'),
+        404: () => errorMessage('Note was not saved. It is not found'),
+        500: () => errorMessage('Note was not saved. Something went wrong'),
+        [defaultHandler]: () => errorMessage('Note was not saved. Something went wrong'),
+      }))
+  }
+
   return (
     <ProtectedRoute>
       <Page className={styles.NotePage}>
@@ -48,7 +62,8 @@ export function NotePage() {
           
             {isLoading ? <LoaderScreen /> : (
               <NoteForm 
-                initialValues={file ?? {}}
+                initialValues={initialValue}
+                onExitPage={onExitPage}
                 onSubmit={editNote}
               />
             )}
