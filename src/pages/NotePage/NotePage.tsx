@@ -1,4 +1,4 @@
-import { useContextDirectoryId, useContextFileId } from '@/features/file-system'
+import { useContextDirectoryId, useContextFile } from '@/features/file-system'
 import { NoteForm, NoteFormData } from '@/widgets/NoteForm'
 import { handleHTTPException } from '@/shared/utils/exception'
 import { useNotifications } from '@/features/notifications'
@@ -7,6 +7,7 @@ import { filesRepository } from '@/entities/files'
 import { defaultHandler } from '@oleksii-pavlov/error-handling'
 import { ProtectedRoute } from '@/app/auth'
 import { useNavigation } from '@/app/routing'
+import { LoaderScreen } from '@/widgets/LoaderScreen'
 import { Container } from '@/shared/components/Container'
 import { Page } from '@/shared/components/Page'
 import styles from './NotePage.module.css'
@@ -17,7 +18,7 @@ export function NotePage() {
   const { navigateDirectoryPage } = useNavigation()
   const { errorMessage } = useNotifications()
 
-  const fileId = useContextFileId(onFileNotFound)
+  const { file, isLoading } = useContextFile(onFileNotFound)
 
   function onFileNotFound() {
     navigateDirectoryPage(directoryId)
@@ -25,9 +26,9 @@ export function NotePage() {
   }
 
   function editNote(data: NoteFormData) {
-    if (!fileId) return 
+    if (!file?.id) return 
 
-    return filesRepository.updateById(fileId, data)
+    return filesRepository.updateById(file.id, data)
       .then(() => navigateDirectoryPage(directoryId))
       .catch(handleHTTPException({
         401: () => errorMessage('You are not authorized'),
@@ -42,9 +43,12 @@ export function NotePage() {
       <Page className={styles.NotePage}>
         <StructureLayout>
           <Container fullHeight>
-            <NoteForm 
-              onSubmit={editNote}
-            />
+            {isLoading ? <LoaderScreen /> : (
+              <NoteForm 
+                initialValues={file ?? {}}
+                onSubmit={editNote}
+              />
+            )}
           </Container>
         </StructureLayout>
       </Page>
