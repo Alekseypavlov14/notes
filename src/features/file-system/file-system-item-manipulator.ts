@@ -1,4 +1,4 @@
-import { IFileSystemItem } from '@/entities/file-system-items'
+import { getFileSystemItemsWithFilters, IFileSystemItem } from '@/entities/file-system-items'
 import { getUserAccount } from '@/app/auth'
 import { HTTPException } from '@/shared/utils/exception'
 import { Repository } from '@/shared/utils/database'
@@ -56,7 +56,7 @@ export abstract class FileSystemItemManipulator<E extends IFileSystemItem, DTO e
   async getPathSegments(id: Id): Promise<string[]> {
     const account = await getUserAccount()
 
-    const fileSystemItems = await this.repository.getByFilters({ userId: account.id } as Partial<E>)
+    const { items: fileSystemItems } = await getFileSystemItemsWithFilters({ userId: account.id })
 
     const fileSystemItem = await this.repository.getById(id)
     if (!fileSystemItem) throw new HTTPException(404)
@@ -67,7 +67,7 @@ export abstract class FileSystemItemManipulator<E extends IFileSystemItem, DTO e
   async getPathDirectories(id: Id): Promise<IFileSystemItem[]> {
     const account = await getUserAccount()
 
-    const fileSystemItems = await this.repository.getByFilters({ userId: account.id } as Partial<E>)
+    const { items: fileSystemItems } = await getFileSystemItemsWithFilters({ userId: account.id })
 
     const fileSystemItem = await this.repository.getById(id)
     if (!fileSystemItem) throw new HTTPException(404)
