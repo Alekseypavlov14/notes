@@ -11,6 +11,9 @@ const initialState: SettingsConfig = normalizeSettingsConfig(preloadedSettingsCo
 export const settingsStore = createStore(initialState, (state) => ({
   updateSettings: (updateSettings: Partial<SettingsConfig>) => {
     state = deepMerge(state, updateSettings)
+  },
+  updateShowItemsLength: (newValue: boolean) => {
+    state.showItemsLength = newValue
   }
 }))
 
@@ -18,5 +21,5 @@ settingsStore.subscribe(state => {
   settingsStorage.setValue(normalizeSettingsConfig(state))
 })
 
-export const { updateSettings } = settingsStore.reducers
+export const { updateSettings, updateShowItemsLength } = settingsStore.reducers
 export const useSettingsStore = settingsStore.useSelector

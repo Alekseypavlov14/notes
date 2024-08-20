@@ -1,3 +1,4 @@
+import { UserSettingsSection } from './components/UserSettingsSection'
 import { AccountSection } from './components/AccountSection'
 import { ProtectedRoute } from '@/app/auth'
 import { ThemesSection } from './components/ThemesSection'
@@ -15,6 +16,7 @@ export function SettingsPage() {
         <Container className={styles.SettingsContent}>
           <AccountSection />
           <ThemesSection />
+          <UserSettingsSection />
         </Container>
       </Page>
     </ProtectedRoute>
