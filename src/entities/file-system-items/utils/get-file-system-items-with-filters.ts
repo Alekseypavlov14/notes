@@ -8,7 +8,7 @@ export interface SearchResult {
   items: IFileSystemItem[]
 }
 
-export async function getFileSystemItemsWithFilters(filters: Partial<IFileSystemItem>): Promise<SearchResult> {
+export async function getFileSystemItemsWithFilters(filters: Partial<IFileSystemItem> = {}): Promise<SearchResult> {
   const files = await filesRepository.getByFilters(filters)
   const directories = await directoriesRepository.getByFilters(filters)
   const items: IFileSystemItem[] = [...files, ...directories]

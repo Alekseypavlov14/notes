@@ -1,4 +1,5 @@
 import { DirectoryIcon, FileSystemItem, FileSystemItemContentAmount, FileSystemItemContentRow, FileSystemItemDate, FileSystemItemIcon, FileSystemItemName, FileSystemItemPreview } from '../FileSystemItem'
+import { useDirectoryItemsAmount } from '@/features/file-system'
 import { FileSystemItemsList } from '../FileSystemItemsList'
 import { formatSmartDate } from '@/shared/utils/date-time'
 import { DirectoryEntity } from '@/entities/directories'
@@ -22,6 +23,8 @@ export function FileSystem({
   onFileClick = () => {}, 
   onDirectoryClick = () => {},
 }: FileSystemProps) {
+  const { getAmountById, isLoading } = useDirectoryItemsAmount()
+  
   return (
     <FileSystemItemsList className={styles.FileSystem}>
       {directories.map(directory => (
@@ -39,7 +42,11 @@ export function FileSystem({
           {settings.showItemsLength || settings.showDateTime ? (
             <FileSystemItemContentRow>
               {settings.showItemsLength ? (
-                <FileSystemItemContentAmount>6 items</FileSystemItemContentAmount>
+                <FileSystemItemContentAmount>
+                  {isLoading ? 'Loading...' : (
+                    <>{getAmountById(directory.id)} items</>
+                  )}
+                </FileSystemItemContentAmount>
               ) : null}
 
               {settings.showDateTime ? (
