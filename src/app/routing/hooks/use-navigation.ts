@@ -10,7 +10,8 @@ export function useNavigation() {
     navigateHomePage: () => navigate('/'),
     navigateNotesPage: () => navigate('/notes'),
     navigateDirectoryPage: (directory: Id) => navigate(`/notes/${directory}`),
+    navigateNotePage: (noteId: Id) => navigate(`note/${noteId}`),
+    navigateCreateFileRelativePage: () => navigate('note/create'),
     navigateSettingsPage: () => navigate('/settings'),
-    navigateCreateFileRelativePage: () => navigate('create/file'),
   })
 }

@@ -22,7 +22,8 @@ export function NotesPage() {
 
   const { 
     navigateCreateFileRelativePage,
-    navigateDirectoryPage 
+    navigateDirectoryPage,
+    navigateNotePage, 
   } = useNavigation()
 
   return (
@@ -47,7 +48,7 @@ export function NotesPage() {
                 directories={directories} 
                 settings={settings} 
                 onDirectoryClick={navigateDirectoryPage}
-                onFileClick={console.log}
+                onFileClick={navigateNotePage}
               />
             )}
   
