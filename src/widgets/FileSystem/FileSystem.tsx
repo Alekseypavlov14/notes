@@ -1,4 +1,4 @@
-import { DirectoryIcon, FileIcon, FileSystemItem, FileSystemItemContentAmount, FileSystemItemContentRow, FileSystemItemIcon, FileSystemItemName } from '../FileSystemItem'
+import { DirectoryIcon, FileSystemItem, FileSystemItemContentAmount, FileSystemItemContentRow, FileSystemItemIcon, FileSystemItemName } from '../FileSystemItem'
 import { FileSystemItemsList } from '../FileSystemItemsList'
 import { DirectoryEntity } from '@/entities/directories'
 import { SettingsConfig } from '@/features/settings'
@@ -50,7 +50,6 @@ export function FileSystem({
         >
           <FileSystemItemContentRow>
             <FileSystemItemName>
-              <FileSystemItemIcon icon={FileIcon} />
               <span>{file.name}</span>
             </FileSystemItemName>
           </FileSystemItemContentRow>
