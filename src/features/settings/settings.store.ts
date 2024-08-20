@@ -14,6 +14,9 @@ export const settingsStore = createStore(initialState, (state) => ({
   },
   updateShowItemsLength: (newValue: boolean) => {
     state.showItemsLength = newValue
+  },
+  updateShowDateTime: (newValue: boolean) => {
+    state.showDateTime = newValue
   }
 }))
 
@@ -21,5 +24,5 @@ settingsStore.subscribe(state => {
   settingsStorage.setValue(normalizeSettingsConfig(state))
 })
 
-export const { updateSettings, updateShowItemsLength } = settingsStore.reducers
+export const { updateSettings, updateShowItemsLength, updateShowDateTime } = settingsStore.reducers
 export const useSettingsStore = settingsStore.useSelector
