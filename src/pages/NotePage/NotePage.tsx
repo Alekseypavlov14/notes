@@ -7,8 +7,10 @@ import { filesRepository } from '@/entities/files'
 import { defaultHandler } from '@oleksii-pavlov/error-handling'
 import { ProtectedRoute } from '@/app/auth'
 import { useNavigation } from '@/app/routing'
+import { validateForm } from '@/widgets/NoteForm'
 import { LoaderScreen } from '@/widgets/LoaderScreen'
 import { Breadcrumbs } from '@/widgets/Breadcrumbs'
+import { isFormValid } from '@/features/forms'
 import { Container } from '@/shared/components/Container'
 import { Page } from '@/shared/components/Page'
 import styles from './NotePage.module.css'
@@ -43,6 +45,8 @@ export function NotePage() {
 
   function onExitPage(data: NoteFormData) {
     if (!file?.id) return
+
+    if (!isFormValid(validateForm(data))) return
 
     filesRepository.updateById(file.id, data)
       .catch(handleHTTPException({

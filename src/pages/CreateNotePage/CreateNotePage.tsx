@@ -6,7 +6,9 @@ import { StructureLayout } from '@/layouts/StructureLayout'
 import { defaultHandler } from '@oleksii-pavlov/error-handling'
 import { ProtectedRoute } from '@/app/auth'
 import { useNavigation } from '@/app/routing'
+import { validateForm } from '@/widgets/NoteForm'
 import { Breadcrumbs } from '@/widgets/Breadcrumbs'
+import { isFormValid } from '@/features/forms'
 import { Container } from '@/shared/components/Container'
 import { Page } from '@/shared/components/Page'
 import styles from './CreateNotePage.module.css'
@@ -30,6 +32,8 @@ export function CreateNotePage() {
   }
 
   function onExitPage(data: NoteFormData) {
+    if (!isFormValid(validateForm(data))) return
+
     filesManipulator.create({
       rootId: directoryId,
       ...data,

@@ -1,4 +1,6 @@
 .FileSystemItem {
+  min-height: 50px;
+
   border: 1px solid var(--border-color);
   border-radius: 10px;
   padding: 10px 20px;
