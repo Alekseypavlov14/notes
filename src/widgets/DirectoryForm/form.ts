@@ -1,10 +1,10 @@
 import { createFormValidation, isNotEmptyString } from '@/features/forms'
 
-export interface CreateDirectoryFormData {
+export interface DirectoryFormData {
   name: string
 }
 
-export const defaultInitialValues: CreateDirectoryFormData = {
+export const defaultInitialValues: DirectoryFormData = {
   name: ''
 }
 

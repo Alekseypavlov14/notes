@@ -1,5 +1,5 @@
 import { directoriesManipulator, useContextDirectoryId } from '@/features/file-system'
-import { CreateDirectoryForm, CreateDirectoryFormData } from '../CreateDirectoryForm'
+import { DirectoryForm, DirectoryFormData } from '../DirectoryForm'
 import { handleHTTPException } from '@/shared/utils/exception'
 import { useNotifications } from '@/features/notifications'
 import { defaultHandler } from '@oleksii-pavlov/error-handling'
@@ -16,7 +16,7 @@ export function CreateDirectoryModal({ isOpened, close, onSubmit = () => {} }: C
   const { successMessage, errorMessage } = useNotifications()
   const directoryId = useContextDirectoryId()
 
-  function createDirectoryHandler(formData: CreateDirectoryFormData) {
+  function createDirectoryHandler(formData: DirectoryFormData) {
     directoriesManipulator.create({
       ...formData,
       rootId: directoryId
@@ -43,7 +43,7 @@ export function CreateDirectoryModal({ isOpened, close, onSubmit = () => {} }: C
       open={isOpened}
       footer={null}
     >
-      <CreateDirectoryForm 
+      <DirectoryForm 
         mode='create'
         onSubmit={createDirectoryHandler}
       />
