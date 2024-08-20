@@ -1,1 +1,5 @@
 /* .UserSettingsSection {} */
+
+.Label {
+  color: var(--text-primary);
+}

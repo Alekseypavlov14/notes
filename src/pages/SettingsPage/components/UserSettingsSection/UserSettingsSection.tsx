@@ -18,7 +18,7 @@ export function UserSettingsSection() {
             onChange={updateShowItemsLength}
           />
 
-          <Headline level={5}>
+          <Headline level={5} className={styles.Label}>
             Show folder items amount
           </Headline>
         </Space>
