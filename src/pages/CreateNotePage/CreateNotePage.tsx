@@ -6,6 +6,7 @@ import { StructureLayout } from '@/layouts/StructureLayout'
 import { defaultHandler } from '@oleksii-pavlov/error-handling'
 import { ProtectedRoute } from '@/app/auth'
 import { useNavigation } from '@/app/routing'
+import { Breadcrumbs } from '@/widgets/Breadcrumbs'
 import { Container } from '@/shared/components/Container'
 import { Page } from '@/shared/components/Page'
 import styles from './CreateNotePage.module.css'
@@ -33,6 +34,8 @@ export function CreateNotePage() {
       <Page className={styles.CreateNotePage}>
         <StructureLayout>
           <Container fullHeight>
+            <Breadcrumbs />
+
             <NoteForm 
               onSubmit={createNote}
             />

@@ -8,6 +8,7 @@ import { defaultHandler } from '@oleksii-pavlov/error-handling'
 import { ProtectedRoute } from '@/app/auth'
 import { useNavigation } from '@/app/routing'
 import { LoaderScreen } from '@/widgets/LoaderScreen'
+import { Breadcrumbs } from '@/widgets/Breadcrumbs'
 import { Container } from '@/shared/components/Container'
 import { Page } from '@/shared/components/Page'
 import styles from './NotePage.module.css'
@@ -43,6 +44,8 @@ export function NotePage() {
       <Page className={styles.NotePage}>
         <StructureLayout>
           <Container fullHeight>
+            <Breadcrumbs />
+          
             {isLoading ? <LoaderScreen /> : (
               <NoteForm 
                 initialValues={file ?? {}}
