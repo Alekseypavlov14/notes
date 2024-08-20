@@ -1,4 +1,3 @@
-import { DirectoryIcon, FileSystemItem, FileSystemItemContentAmount, FileSystemItemContentRow, FileSystemItemDate, FileSystemItemIcon, FileSystemItemName, FileSystemItemPreview } from '../FileSystemItem'
 import { useDirectoryItemsAmount } from '@/features/file-system'
 import { FileSystemItemsList } from '../FileSystemItemsList'
 import { formatSmartDate } from '@/shared/utils/date-time'
@@ -6,6 +5,17 @@ import { DirectoryEntity } from '@/entities/directories'
 import { SettingsConfig } from '@/features/settings'
 import { FileEntity } from '@/entities/files'
 import { Id } from '@/shared/types/id'
+import { 
+  DirectoryIcon, 
+  FileSystemItem, 
+  FileSystemItemContentAmount, 
+  FileSystemItemContentRow, 
+  FileSystemItemDate, 
+  FileSystemItemIcon, 
+  FileSystemItemName, 
+  FileSystemItemPreview, 
+  getDirectoryItemsAmount 
+} from '../FileSystemItem'
 import styles from './FileSystem.module.css'
 
 interface FileSystemProps {
@@ -43,9 +53,7 @@ export function FileSystem({
             <FileSystemItemContentRow>
               {settings.showItemsLength ? (
                 <FileSystemItemContentAmount>
-                  {isLoading ? 'Loading...' : (
-                    <>{getAmountById(directory.id)} items</>
-                  )}
+                  {isLoading ? 'Loading...' : getDirectoryItemsAmount(getAmountById(directory.id))}
                 </FileSystemItemContentAmount>
               ) : null}
 

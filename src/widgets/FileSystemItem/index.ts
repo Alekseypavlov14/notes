@@ -5,3 +5,5 @@ export * from './components/FileSystemItemContentRow'
 export * from './components/FileSystemItemDate'
 export * from './components/FileSystemItemPreview'
 export * from './FileSystemItem'
+
+export * from './utils/get-directory-items-amount'
