@@ -5,5 +5,6 @@ export function normalizeSettingsConfig(data: Partial<SettingsConfig> = {}): Set
   return ({
     showItemsLength: data.showItemsLength ?? defaultSettingsConfig.showItemsLength,
     showDateTime: data.showDateTime ?? defaultSettingsConfig.showDateTime,
+    showFileContentPreview: data.showFileContentPreview ?? defaultSettingsConfig.showFileContentPreview
   })
 }

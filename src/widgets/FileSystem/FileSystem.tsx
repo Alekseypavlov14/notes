@@ -61,9 +61,11 @@ export function FileSystem({
             </FileSystemItemName>
           </FileSystemItemContentRow>
 
-          {settings.showDateTime ? (
+          {settings.showDateTime || settings.showFileContentPreview ? (
             <FileSystemItemContentRow>
-              <FileSystemItemPreview text={file.content} />
+              {settings.showFileContentPreview && file.content.length ? ( 
+                <FileSystemItemPreview text={file.content} />
+              ) : null}
 
               {settings.showDateTime ? (
                 <FileSystemItemDate>{formatSmartDate(file.updatedAt)}</FileSystemItemDate>

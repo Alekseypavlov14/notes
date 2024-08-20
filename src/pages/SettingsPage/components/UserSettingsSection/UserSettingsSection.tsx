@@ -1,5 +1,5 @@
 import { SettingsSection, SettingsSectionContent, SettingsSectionTitle } from '@/widgets/SettingsSection'
-import { updateShowDateTime, updateShowItemsLength, useSettingsStore } from '@/features/settings'
+import { updateShowDateTime, updateShowFileContentPreview, updateShowItemsLength, useSettingsStore } from '@/features/settings'
 import { Space, Switch } from 'antd'
 import { Headline } from '@/shared/components/Headline'
 import styles from './UserSettingsSection.module.css'
@@ -20,6 +20,17 @@ export function UserSettingsSection() {
 
           <Headline level={5} className={styles.Label}>
             Show folder items amount
+          </Headline>
+        </Space>
+
+        <Space direction='horizontal' size='middle'>
+          <Switch 
+            checked={settings.showFileContentPreview}
+            onChange={updateShowFileContentPreview}
+          />
+
+          <Headline level={5} className={styles.Label}>
+            Show files content preview
           </Headline>
         </Space>
 
