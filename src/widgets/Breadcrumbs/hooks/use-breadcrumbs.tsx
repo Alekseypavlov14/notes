@@ -1,16 +1,5 @@
 import { usePathDirectories } from '@/features/file-system'
-import { HomeOutlined } from '@ant-design/icons'
-import { ReactNode } from 'react'
-
-interface BreadcrumbsItem {
-  title: ReactNode,
-  href: string
-}
-
-const rootSegment: BreadcrumbsItem = { 
-  title: <HomeOutlined />,
-  href: '/notes'
-}
+import { BreadcrumbsItem } from '../types/breadcrumbs-item'
 
 export function useBreadcrumbs(): BreadcrumbsItem[] {
   const directories = usePathDirectories()
@@ -20,5 +9,5 @@ export function useBreadcrumbs(): BreadcrumbsItem[] {
     href: `/notes/${directory.id}`
   }))
 
-  return [rootSegment, ...segments]
+  return segments
 }

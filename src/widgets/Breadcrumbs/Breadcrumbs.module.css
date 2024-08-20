@@ -13,6 +13,15 @@
   justify-content: center;
 }
 
+.Breadcrumbs .Root {
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.Breadcrumbs .RootIcon {
+  padding-bottom: 0.3em;
+}
+
 .Breadcrumbs .BreadcrumbLink, 
 .Breadcrumbs .LastItem {
   font-family: 'Rubik', sans-serif;
