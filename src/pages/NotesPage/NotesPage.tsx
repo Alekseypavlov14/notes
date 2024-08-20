@@ -18,7 +18,11 @@ export function NotesPage() {
   const settings = useSettingsStore((state) => state)
 
   const createDirectoryModal = useModal()
-  const { navigateCreateFileRelativePage } = useNavigation()
+
+  const { 
+    navigateCreateFileRelativePage,
+    navigateDirectoryPage 
+  } = useNavigation()
 
   return (
     <ProtectedRoute>
@@ -39,6 +43,8 @@ export function NotesPage() {
                 files={files} 
                 directories={directories} 
                 settings={settings} 
+                onDirectoryClick={navigateDirectoryPage}
+                onFileClick={console.log}
               />
             )}
   
