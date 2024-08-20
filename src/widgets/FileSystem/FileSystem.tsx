@@ -1,4 +1,4 @@
-import { DirectoryIcon, FileSystemItem, FileSystemItemContentAmount, FileSystemItemContentRow, FileSystemItemDate, FileSystemItemIcon, FileSystemItemName } from '../FileSystemItem'
+import { DirectoryIcon, FileSystemItem, FileSystemItemContentAmount, FileSystemItemContentRow, FileSystemItemDate, FileSystemItemIcon, FileSystemItemName, FileSystemItemPreview } from '../FileSystemItem'
 import { FileSystemItemsList } from '../FileSystemItemsList'
 import { formatSmartDate } from '@/shared/utils/date-time'
 import { DirectoryEntity } from '@/entities/directories'
@@ -63,6 +63,8 @@ export function FileSystem({
 
           {settings.showDateTime ? (
             <FileSystemItemContentRow>
+              <FileSystemItemPreview text={file.content} />
+
               {settings.showDateTime ? (
                 <FileSystemItemDate>{formatSmartDate(file.updatedAt)}</FileSystemItemDate>
               ) : null}
