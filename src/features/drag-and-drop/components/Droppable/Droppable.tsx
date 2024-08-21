@@ -13,13 +13,15 @@ export function Droppable({
   children, 
   ...props 
 }: DroppableProps) {
-  const { setNodeRef } = useDroppable({ 
+  const { setNodeRef, active, over, isOver } = useDroppable({ 
     id: droppableId
   })
 
+  const isOverByDraggable = isOver && active?.id !== over?.id
+
   return (
     <div 
-      className={clsx(styles.Droppable, className)} 
+      className={clsx(styles.Droppable, isOverByDraggable && styles.IsOver, className)} 
       ref={setNodeRef}
       {...props}
     >
