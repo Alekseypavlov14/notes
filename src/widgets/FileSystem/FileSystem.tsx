@@ -1,5 +1,6 @@
 import { useDirectoryItemsAmount } from '@/features/file-system'
 import { Draggable, Droppable } from '@/features/drag-and-drop'
+import { EmptyDirectoryScreen } from '../EmptyDirectoryScreen'
 import { FileSystemItemsList } from '../FileSystemItemsList'
 import { formatSmartDate } from '@/shared/utils/date-time'
 import { DirectoryEntity } from '@/entities/directories'
@@ -35,6 +36,10 @@ export function FileSystem({
   onDirectoryClick = () => {},
 }: FileSystemProps) {
   const { getAmountById, isLoading } = useDirectoryItemsAmount()
+
+  if (directories.length === 0 && files.length === 0) return (
+    <EmptyDirectoryScreen />
+  )
   
   return (
     <FileSystemItemsList className={styles.FileSystem}>

@@ -51,7 +51,7 @@ export function NotesPage() {
     <ProtectedRoute>
       <Page className={styles.NotesPage}>
         <StructureLayout>
-          <Container>
+          <Container fullHeight>
             <DragDropContext onDragEnd={moveFileSystemItemHandler}>
               <Droppable droppableId={parentDirectoryId}>
                 <Breadcrumbs />
