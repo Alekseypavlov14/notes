@@ -11,3 +11,4 @@ export * from './hooks/use-path-directories'
 
 export * from './components/CreateFileIcon'
 export * from './components/CreateDirectoryIcon'
+export * from './components/DeleteIcon'

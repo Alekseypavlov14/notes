@@ -1,6 +1,6 @@
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
-import { CreateIcon } from '../CreateIcon'
 import { faFile } from '@fortawesome/free-regular-svg-icons'
+import { Icon } from '../Icon'
 import styles from './CreateFileIcon.module.css'
 
 interface CreateFileIconProps {
@@ -9,11 +9,11 @@ interface CreateFileIconProps {
 
 export function CreateFileIcon({ onClick }: CreateFileIconProps) {
   return (
-    <CreateIcon 
+    <Icon 
       className={styles.CreateFileIcon}
       onClick={onClick}
     >
       <FontAwesomeIcon icon={faFile} />
-    </CreateIcon>
+    </Icon>
   )
 }
