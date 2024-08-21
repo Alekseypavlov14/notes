@@ -1,4 +1,4 @@
-import { DndContext, DndContextProps } from '@dnd-kit/core'
+import { DndContext, DndContextProps, pointerWithin } from '@dnd-kit/core'
 import { useDragAndDropSensors } from '../../hooks/use-drag-and-drop-sensors'
 
 interface DragDropContextProps extends DndContextProps {}
@@ -7,6 +7,10 @@ export function DragDropContext({ ...props }: DragDropContextProps) {
   const sensors = useDragAndDropSensors()
 
   return (
-    <DndContext {...props} sensors={sensors} />
+    <DndContext 
+      collisionDetection={pointerWithin}
+      sensors={sensors} 
+      {...props} 
+    />
   )
 }
