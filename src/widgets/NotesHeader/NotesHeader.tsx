@@ -1,14 +1,15 @@
-import { CreateDirectoryIcon, CreateFileIcon } from '@/features/file-system'
+import { CreateDirectoryIcon, CreateFileIcon, DeleteIcon } from '@/features/file-system'
 import { Headline } from '@/shared/components/Headline'
 import styles from './NotesHeader.module.css'
 
 interface NotesHeaderProps {
   onDirectoryIconClick?: VoidFunction
   onFileIconClick?: VoidFunction
+  onDeleteClick?: VoidFunction
   title: string
 }
 
-export function NotesHeader({ title, onDirectoryIconClick, onFileIconClick }: NotesHeaderProps) {
+export function NotesHeader({ title, onDirectoryIconClick, onFileIconClick, onDeleteClick }: NotesHeaderProps) {
   return (
     <div className={styles.NotesHeader}>
       <Headline 
@@ -21,6 +22,7 @@ export function NotesHeader({ title, onDirectoryIconClick, onFileIconClick }: No
       <div className={styles.NotesHeaderIcons}>
         <CreateDirectoryIcon onClick={onDirectoryIconClick} />
         <CreateFileIcon onClick={onFileIconClick} />
+        <DeleteIcon onClick={onDeleteClick} />
       </div>
     </div>
   )

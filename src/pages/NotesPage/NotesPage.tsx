@@ -1,8 +1,11 @@
-import { directoriesManipulator, filesManipulator, useContextDirectory, useDirectoryContent } from '@/features/file-system'
+import { directoriesManipulator, sharedManipulator, useContextDirectory, useDirectoryContent } from '@/features/file-system'
 import { DragDropContext, Droppable } from '@/features/drag-and-drop'
 import { CreateDirectoryModal } from '@/widgets/CreateDirectoryModal'
+import { handleHTTPException } from '@/shared/utils/exception'
+import { useNotifications } from '@/features/notifications'
 import { useSettingsStore } from '@/features/settings'
 import { StructureLayout } from '@/layouts/StructureLayout'
+import { defaultHandler } from '@oleksii-pavlov/error-handling'
 import { ProtectedRoute } from '@/app/auth'
 import { useNavigation } from '@/app/routing'
 import { ROOT_ROOT_ID } from '@/entities/file-system-items'
@@ -32,6 +35,8 @@ export function NotesPage() {
     navigateNotePage, 
   } = useNavigation()
 
+  const { infoMessage, errorMessage } = useNotifications()
+
   async function moveFileSystemItemHandler(e: DragEndEvent) {
     const draggedId = e.active.id as Id
     const droppedId = e.over?.id as Id | undefined
@@ -39,10 +44,27 @@ export function NotesPage() {
     if (!draggedId || !droppedId) return
     if (draggedId === droppedId) return
 
-    await filesManipulator.move(draggedId, droppedId).catch(() => {})
-    await directoriesManipulator.move(draggedId, droppedId).catch(() => {})
+    await sharedManipulator.move(draggedId, droppedId)
+      .then(() => navigateDirectoryPage(droppedId))  
+      .catch(handleHTTPException({
+        401: () => errorMessage('You are not authorized'),
+        404: () => errorMessage('Item is not found'),
+        [defaultHandler]: () => errorMessage('Something went wrong'),
+      }))
+  }
 
-    navigateDirectoryPage(droppedId)
+  function deleteDirectoryHandler() {
+    if (!directory?.id) return
+    if (directory.id === ROOT_ROOT_ID) return
+
+    directoriesManipulator.delete(directory.id)
+      .then(() => navigateDirectoryPage(directory.rootId))
+      .then(() => infoMessage('Directory is deleted'))
+      .catch(handleHTTPException({
+        401: () => errorMessage('You are not authorized'),
+        404: () => errorMessage('Item is not found'),
+        [defaultHandler]: () => errorMessage('Something went wrong'),
+      }))
   }
 
   const parentDirectoryId = directory?.rootId ?? ROOT_ROOT_ID 
@@ -59,6 +81,7 @@ export function NotesPage() {
                 <NotesHeader 
                   onDirectoryIconClick={createDirectoryModal.open}
                   onFileIconClick={navigateCreateFileRelativePage}
+                  onDeleteClick={deleteDirectoryHandler}
                   title={directory?.name ?? 'Notes'}
                 />
               </Droppable>
