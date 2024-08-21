@@ -1,4 +1,4 @@
-import { directoriesManipulator, sharedManipulator, useContextDirectory, useDirectoryContent } from '@/features/file-system'
+import { directoriesManipulator, sharedManipulator, useContextDirectory, useContextDirectoryId, useDirectoryContent } from '@/features/file-system'
 import { DragDropContext, Droppable } from '@/features/drag-and-drop'
 import { CreateDirectoryModal } from '@/widgets/CreateDirectoryModal'
 import { handleHTTPException } from '@/shared/utils/exception'
@@ -23,6 +23,7 @@ import styles from './NotesPage.module.css'
 
 export function NotesPage() {
   const { directory } = useContextDirectory()
+  const directoryId = useContextDirectoryId()
 
   const { files, directories, isLoading, revalidate } = useDirectoryContent()
   const settings = useSettingsStore((state) => state)
@@ -55,7 +56,7 @@ export function NotesPage() {
 
   function deleteDirectoryHandler() {
     if (!directory?.id) return
-    if (directory.id === ROOT_ROOT_ID) return
+    if (directoryId === ROOT_ROOT_ID) return
 
     directoriesManipulator.delete(directory.id)
       .then(() => navigateDirectoryPage(directory.rootId))
@@ -79,6 +80,7 @@ export function NotesPage() {
                 <Breadcrumbs />
     
                 <NotesHeader 
+                  showDeleteIcon={directoryId !== ROOT_ROOT_ID}
                   onDirectoryIconClick={createDirectoryModal.open}
                   onFileIconClick={navigateCreateFileRelativePage}
                   onDeleteClick={deleteDirectoryHandler}

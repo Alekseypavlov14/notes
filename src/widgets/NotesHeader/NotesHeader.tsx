@@ -6,10 +6,17 @@ interface NotesHeaderProps {
   onDirectoryIconClick?: VoidFunction
   onFileIconClick?: VoidFunction
   onDeleteClick?: VoidFunction
+  showDeleteIcon?: boolean
   title: string
 }
 
-export function NotesHeader({ title, onDirectoryIconClick, onFileIconClick, onDeleteClick }: NotesHeaderProps) {
+export function NotesHeader({ 
+  title, 
+  onDirectoryIconClick, 
+  onFileIconClick, 
+  onDeleteClick,
+  showDeleteIcon = true 
+}: NotesHeaderProps) {
   return (
     <div className={styles.NotesHeader}>
       <Headline 
@@ -22,7 +29,7 @@ export function NotesHeader({ title, onDirectoryIconClick, onFileIconClick, onDe
       <div className={styles.NotesHeaderIcons}>
         <CreateDirectoryIcon onClick={onDirectoryIconClick} />
         <CreateFileIcon onClick={onFileIconClick} />
-        <DeleteIcon onClick={onDeleteClick} />
+        {showDeleteIcon ? <DeleteIcon onClick={onDeleteClick} /> : null}
       </div>
     </div>
   )
