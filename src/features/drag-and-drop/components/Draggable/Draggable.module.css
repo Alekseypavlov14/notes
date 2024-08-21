@@ -1,0 +1,7 @@
+.Draggable {
+  touch-action: none;
+}
+
+.IsDragging {
+  opacity: 0.9;
+}
