@@ -5,16 +5,17 @@ import styles from './NotesHeader.module.css'
 interface NotesHeaderProps {
   onDirectoryIconClick?: VoidFunction
   onFileIconClick?: VoidFunction
+  title: string
 }
 
-export function NotesHeader({ onDirectoryIconClick, onFileIconClick }: NotesHeaderProps) {
+export function NotesHeader({ title, onDirectoryIconClick, onFileIconClick }: NotesHeaderProps) {
   return (
     <div className={styles.NotesHeader}>
       <Headline 
         level={2} 
         margin='small'
       >
-        Notes
+        {title}
       </Headline>
 
       <div className={styles.NotesHeaderIcons}>

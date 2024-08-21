@@ -59,6 +59,7 @@ export function NotesPage() {
                 <NotesHeader 
                   onDirectoryIconClick={createDirectoryModal.open}
                   onFileIconClick={navigateCreateFileRelativePage}
+                  title={directory?.name ?? 'Notes'}
                 />
               </Droppable>
   
