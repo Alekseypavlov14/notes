@@ -7,6 +7,7 @@ import { Nullable } from '@/shared/types/nullable'
 export interface UseContextDirectoryResult {
   directory: Nullable<DirectoryEntity>
   isLoading: boolean
+  revalidate: VoidFunction
 }
 
 export function useContextDirectory(): UseContextDirectoryResult {
@@ -15,7 +16,7 @@ export function useContextDirectory(): UseContextDirectoryResult {
 
   const directoryId = useContextDirectoryId()
 
-  useEffect(() => {
+  function revalidate() {
     if (directoryId === ROOT_ROOT_ID) {
       setDirectory(null)
       setLoading(false)
@@ -29,7 +30,9 @@ export function useContextDirectory(): UseContextDirectoryResult {
       .then(setDirectory)
       .catch(() => setDirectory(null))
       .finally(() => setLoading(false))
-  }, [directoryId])
+  }
 
-  return { isLoading, directory }
+  useEffect(revalidate, [directoryId])
+
+  return { isLoading, directory, revalidate }
 }

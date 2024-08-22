@@ -1,12 +1,13 @@
 import { CreateDirectoryIcon, CreateFileIcon, DeleteIcon, directoriesManipulator, sharedManipulator, useContextDirectory, useContextDirectoryId, useDirectoryContent } from '@/features/file-system'
 import { NotesHeader, NotesHeaderIcons } from '@/widgets/NotesHeader'
+import { formCreateMode, formEditMode } from '@/features/forms'
 import { DragDropContext, Droppable } from '@/features/drag-and-drop'
-import { CreateDirectoryModal } from '@/widgets/CreateDirectoryModal'
 import { handleHTTPException } from '@/shared/utils/exception'
 import { useNotifications } from '@/features/notifications'
 import { useSettingsStore } from '@/features/settings'
 import { StructureLayout } from '@/layouts/StructureLayout'
 import { defaultHandler } from '@oleksii-pavlov/error-handling'
+import { DirectoryModal } from '@/widgets/DirectoryModal'
 import { ProtectedRoute } from '@/app/auth'
 import { useNavigation } from '@/app/routing'
 import { ROOT_ROOT_ID } from '@/entities/file-system-items'
@@ -22,13 +23,14 @@ import { Id } from '@/shared/types/id'
 import styles from './NotesPage.module.css'
 
 export function NotesPage() {
-  const { directory } = useContextDirectory()
+  const { directory, revalidate: revalidateDirectory } = useContextDirectory()
   const directoryId = useContextDirectoryId()
 
-  const { files, directories, isLoading, revalidate } = useDirectoryContent()
+  const { files, directories, isLoading, revalidate: revalidateDirectoryContent } = useDirectoryContent()
   const settings = useSettingsStore((state) => state)
 
   const createDirectoryModal = useModal()
+  const editDirectoryModal = useModal()
 
   const { 
     navigateCreateFileRelativePage,
@@ -37,6 +39,11 @@ export function NotesPage() {
   } = useNavigation()
 
   const { infoMessage, errorMessage } = useNotifications()
+
+  function openEditDirectoryModalHandler() {
+    if (directoryId === ROOT_ROOT_ID) return
+    editDirectoryModal.open()
+  }
 
   async function moveFileSystemItemHandler(e: DragEndEvent) {
     const draggedId = e.active.id as Id
@@ -80,18 +87,20 @@ export function NotesPage() {
                 <Breadcrumbs />
     
                 <NotesHeader>
-                  <Headline level={2}>
+                  <Headline 
+                    onClick={openEditDirectoryModalHandler}
+                    level={2} 
+                  >
                     {directory?.name ?? 'Notes'}
                   </Headline>
 
                   <NotesHeaderIcons>
                     <CreateDirectoryIcon onClick={createDirectoryModal.open} />
                     <CreateFileIcon onClick={navigateCreateFileRelativePage} />
-                    
-                    {directoryId !== ROOT_ROOT_ID ? 
+
+                    {directoryId !== ROOT_ROOT_ID ? (
                       <DeleteIcon onClick={deleteDirectoryHandler} /> 
-                      : null
-                    }
+                    ) : null}
                   </NotesHeaderIcons>
                 </NotesHeader>
               </Droppable>
@@ -109,11 +118,19 @@ export function NotesPage() {
                   onFileClick={navigateNotePage}
                 />
               )}
-    
-              <CreateDirectoryModal 
+
+              <DirectoryModal 
                 isOpened={createDirectoryModal.isOpened}
                 close={createDirectoryModal.close}
-                onSubmit={revalidate}
+                onSubmit={revalidateDirectoryContent}
+                mode={formCreateMode}
+              />
+
+              <DirectoryModal 
+                isOpened={editDirectoryModal.isOpened}
+                close={editDirectoryModal.close}
+                onSubmit={revalidateDirectory}
+                mode={formEditMode}
               />
             </DragDropContext>
           </Container>
