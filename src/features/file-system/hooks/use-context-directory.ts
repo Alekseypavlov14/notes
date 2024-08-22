@@ -1,3 +1,4 @@
+import { updateDirectory, useContextDirectoryStore } from '../stores/context-directory.store'
 import { directoriesRepository, DirectoryEntity } from '@/entities/directories'
 import { useContextDirectoryId } from './use-context-directory-id'
 import { useEffect, useState } from 'react'
@@ -11,14 +12,14 @@ export interface UseContextDirectoryResult {
 }
 
 export function useContextDirectory(): UseContextDirectoryResult {
-  const [directory, setDirectory] = useState<Nullable<DirectoryEntity>>(null)
+  const directory = useContextDirectoryStore((state) => state.directory)
   const [isLoading, setLoading] = useState(true)
 
   const directoryId = useContextDirectoryId()
 
   function revalidate() {
     if (directoryId === ROOT_ROOT_ID) {
-      setDirectory(null)
+      updateDirectory(null)
       setLoading(false)
 
       return
@@ -27,8 +28,8 @@ export function useContextDirectory(): UseContextDirectoryResult {
     setLoading(true)
       
     directoriesRepository.getById(directoryId)  
-      .then(setDirectory)
-      .catch(() => setDirectory(null))
+      .then(updateDirectory)
+      .catch(() => updateDirectory(null))
       .finally(() => setLoading(false))
   }
 

@@ -1,16 +1,18 @@
-import { directoriesManipulator, useContextDirectoryId } from '@/features/file-system'
+import { directoriesManipulator, useContextDirectory } from '@/features/file-system'
+import { IFileSystemItem, ROOT_ROOT_ID } from '@/entities/file-system-items'
 import { useEffect, useState } from 'react'
-import { IFileSystemItem } from '@/entities/file-system-items'
 
 export function usePathDirectories() {
   const [pathDirectories, setPathDirectories] = useState<IFileSystemItem[]>([])
-  const directoryId = useContextDirectoryId()
+  const { directory } = useContextDirectory()
 
   useEffect(() => {
+    const directoryId = directory?.id || ROOT_ROOT_ID
+
     directoriesManipulator.getPathDirectories(directoryId)
       .then(pathDirectories => setPathDirectories(pathDirectories))
       .catch(() => setPathDirectories([]))
-  }, [directoryId])
+  }, [directory])
 
   return pathDirectories
 }
