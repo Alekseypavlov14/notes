@@ -1,4 +1,5 @@
-import { directoriesManipulator, sharedManipulator, useContextDirectory, useContextDirectoryId, useDirectoryContent } from '@/features/file-system'
+import { CreateDirectoryIcon, CreateFileIcon, DeleteIcon, directoriesManipulator, sharedManipulator, useContextDirectory, useContextDirectoryId, useDirectoryContent } from '@/features/file-system'
+import { NotesHeader, NotesHeaderIcons } from '@/widgets/NotesHeader'
 import { DragDropContext, Droppable } from '@/features/drag-and-drop'
 import { CreateDirectoryModal } from '@/widgets/CreateDirectoryModal'
 import { handleHTTPException } from '@/shared/utils/exception'
@@ -11,7 +12,6 @@ import { useNavigation } from '@/app/routing'
 import { ROOT_ROOT_ID } from '@/entities/file-system-items'
 import { LoaderScreen } from '@/widgets/LoaderScreen'
 import { DragEndEvent } from '@dnd-kit/core'
-import { NotesHeader } from '@/widgets/NotesHeader'
 import { Breadcrumbs } from '@/widgets/Breadcrumbs'
 import { FileSystem } from '@/widgets/FileSystem'
 import { Container } from '@/shared/components/Container'
@@ -79,13 +79,21 @@ export function NotesPage() {
               <Droppable droppableId={parentDirectoryId}>
                 <Breadcrumbs />
     
-                <NotesHeader 
-                  showDeleteIcon={directoryId !== ROOT_ROOT_ID}
-                  onDirectoryIconClick={createDirectoryModal.open}
-                  onFileIconClick={navigateCreateFileRelativePage}
-                  onDeleteClick={deleteDirectoryHandler}
-                  title={directory?.name ?? 'Notes'}
-                />
+                <NotesHeader>
+                  <Headline level={2}>
+                    {directory?.name ?? 'Notes'}
+                  </Headline>
+
+                  <NotesHeaderIcons>
+                    <CreateDirectoryIcon onClick={createDirectoryModal.open} />
+                    <CreateFileIcon onClick={navigateCreateFileRelativePage} />
+                    
+                    {directoryId !== ROOT_ROOT_ID ? 
+                      <DeleteIcon onClick={deleteDirectoryHandler} /> 
+                      : null
+                    }
+                  </NotesHeaderIcons>
+                </NotesHeader>
               </Droppable>
   
               {isLoading ? (

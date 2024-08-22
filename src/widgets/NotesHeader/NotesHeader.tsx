@@ -1,36 +1,12 @@
-import { CreateDirectoryIcon, CreateFileIcon, DeleteIcon } from '@/features/file-system'
-import { Headline } from '@/shared/components/Headline'
+import { ComponentPropsWithoutRef } from 'react'
 import styles from './NotesHeader.module.css'
 
-interface NotesHeaderProps {
-  onDirectoryIconClick?: VoidFunction
-  onFileIconClick?: VoidFunction
-  onDeleteClick?: VoidFunction
-  showDeleteIcon?: boolean
-  title: string
-}
+interface NotesHeaderProps extends ComponentPropsWithoutRef<'div'> {}
 
-export function NotesHeader({ 
-  title, 
-  onDirectoryIconClick, 
-  onFileIconClick, 
-  onDeleteClick,
-  showDeleteIcon = true 
-}: NotesHeaderProps) {
+export function NotesHeader({ className, children, ...props }: NotesHeaderProps) {
   return (
-    <div className={styles.NotesHeader}>
-      <Headline 
-        level={2} 
-        margin='small'
-      >
-        {title}
-      </Headline>
-
-      <div className={styles.NotesHeaderIcons}>
-        <CreateDirectoryIcon onClick={onDirectoryIconClick} />
-        <CreateFileIcon onClick={onFileIconClick} />
-        {showDeleteIcon ? <DeleteIcon onClick={onDeleteClick} /> : null}
-      </div>
+    <div className={styles.NotesHeader} {...props}>
+      {children}
     </div>
   )
 }
