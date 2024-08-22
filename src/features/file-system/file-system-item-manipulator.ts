@@ -13,6 +13,7 @@ export interface IFileSystemItemManipulator<E extends IFileSystemItem = IFileSys
   getUserItems(): Promise<E[]>
   create(dto: Omit<DTO, 'userId'>): Promise<E>
   move(id: Id, newRootId: Id): Promise<E>
+  rename(id: Id, newName: string): Promise<E>
   getPathSegments(id: Id): Promise<string[]>
   getPathDirectories(id: Id): Promise<IFileSystemItem[]>
   delete(id: Id): Promise<E>
@@ -55,6 +56,20 @@ export abstract class FileSystemItemManipulator<E extends IFileSystemItem = IFil
     if (!updatedFile) throw new HTTPException(404)
 
     return updatedFile
+  }
+
+  async rename(id: Id, newName: string): Promise<E> {
+    const fileSystemItem = await this.repository.getById(id)
+    if (!fileSystemItem) throw new HTTPException(404)
+
+    const fileSystemItemUpdateDTO: Partial<DTO> = {
+      name: newName
+    } as Partial<DTO>
+
+    const updatedFileSystemItem = await this.repository.updateById(id, fileSystemItemUpdateDTO)
+    if (!updatedFileSystemItem) throw new HTTPException(404)
+
+    return updatedFileSystemItem
   }
 
   async getPathSegments(id: Id): Promise<string[]> {
