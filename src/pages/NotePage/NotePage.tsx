@@ -1,5 +1,5 @@
+import { DeleteIcon, useContextDirectoryId, useContextFile } from '@/features/file-system'
 import { getInitialValue, NoteForm, NoteFormData } from '@/widgets/NoteForm'
-import { useContextDirectoryId, useContextFile } from '@/features/file-system'
 import { handleHTTPException } from '@/shared/utils/exception'
 import { useNotifications } from '@/features/notifications'
 import { StructureLayout } from '@/layouts/StructureLayout'
@@ -19,7 +19,7 @@ export function NotePage() {
   const directoryId = useContextDirectoryId()
   
   const { navigateDirectoryPage } = useNavigation()
-  const { errorMessage } = useNotifications()
+  const { infoMessage, errorMessage } = useNotifications()
 
   const { file, isLoading } = useContextFile(onFileNotFound)
 
@@ -57,12 +57,30 @@ export function NotePage() {
       }))
   }
 
+  function deleteNoteHandler() {
+    if (!file?.id) return 
+
+    return filesRepository.deleteById(file.id)
+      .then(() => navigateDirectoryPage(directoryId))
+      .then(() => infoMessage('Note is deleted'))
+      .catch(handleHTTPException({
+        401: () => errorMessage('Note was not deleted. You are not authorized'),
+        404: () => errorMessage('Note was not deleted. It is not found'),
+        500: () => errorMessage('Note was not deleted. Something went wrong'),
+        [defaultHandler]: () => errorMessage('Note was not deleted. Something went wrong'),
+      }))
+  }
+
   return (
     <ProtectedRoute>
       <Page className={styles.NotePage}>
         <StructureLayout>
           <Container fullHeight>
-            <Breadcrumbs />
+            <div className={styles.Header}>
+              <Breadcrumbs />
+
+              <DeleteIcon onClick={deleteNoteHandler} />  
+            </div>
           
             {isLoading ? <LoaderScreen /> : (
               <NoteForm 
