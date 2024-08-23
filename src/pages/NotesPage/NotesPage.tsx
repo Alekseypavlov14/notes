@@ -6,6 +6,7 @@ import { handleHTTPException } from '@/shared/utils/exception'
 import { useNotifications } from '@/features/notifications'
 import { useSettingsStore } from '@/features/settings'
 import { StructureLayout } from '@/layouts/StructureLayout'
+import { getInitialValue } from '@/widgets/DirectoryForm'
 import { defaultHandler } from '@oleksii-pavlov/error-handling'
 import { DirectoryModal } from '@/widgets/DirectoryModal'
 import { ProtectedRoute } from '@/app/auth'
@@ -127,6 +128,7 @@ export function NotesPage() {
               />
 
               <DirectoryModal 
+                initialValue={getInitialValue(directory ?? {})}
                 isOpened={editDirectoryModal.isOpened}
                 close={editDirectoryModal.close}
                 onSubmit={revalidateDirectory}

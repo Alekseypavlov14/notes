@@ -12,9 +12,10 @@ interface DirectoryModalProps {
   close: () => void
   mode: FormMode
   isOpened: boolean
+  initialValue?: Partial<DirectoryFormData>
 }
 
-export function DirectoryModal({ mode, isOpened, close, onSubmit = () => {} }: DirectoryModalProps) {
+export function DirectoryModal({ initialValue, mode, isOpened, close, onSubmit = () => {} }: DirectoryModalProps) {
   const { successMessage, errorMessage } = useNotifications()
   const directoryId = useContextDirectoryId()
 
@@ -53,6 +54,7 @@ export function DirectoryModal({ mode, isOpened, close, onSubmit = () => {} }: D
       <DirectoryForm 
         mode={mode}
         onSubmit={submitHandler}
+        initialValues={initialValue}
       />
     </Modal>
   )
