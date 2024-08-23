@@ -2,6 +2,7 @@ import { defaultInitialValues, NoteFormData, validateForm } from './form'
 import { Form, Formik, FormikHelpers } from 'formik'
 import { HandleExitPage } from './HandleExitPage'
 import { deepMerge } from '@oleksii-pavlov/deep-merge'
+import { useRef } from 'react'
 import { Input } from 'antd'
 import styles from './NoteForm.module.css'
 
@@ -16,11 +17,21 @@ export function NoteForm({
   onExitPage = () => {}, 
   initialValues = {},
 }: NoteFormProps) {
+  const isFormSubmitted = useRef(false)
+
   const normalizedInitialValues = deepMerge<NoteFormData>(defaultInitialValues, initialValues)
 
   async function submitHandler(data: NoteFormData, { resetForm }: FormikHelpers<NoteFormData>) {
     await onSubmit(data)
+    
+    isFormSubmitted.current = true
+
     resetForm()
+  }
+
+  function exitPageHandler(data: NoteFormData) {
+    if (isFormSubmitted.current) return
+    onExitPage(data)
   }
 
   return (
@@ -59,7 +70,7 @@ export function NoteForm({
             autoComplete='off'
           />
 
-          <HandleExitPage onExitPage={onExitPage} />
+          <HandleExitPage onExitPage={exitPageHandler} />
         </Form>
       )}
     </Formik>
